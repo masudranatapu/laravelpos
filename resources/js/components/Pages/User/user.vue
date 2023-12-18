@@ -45,8 +45,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        
+                                    <tr v-for="(user, index) of users">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.phone }}</td>
+                                        <td>{{ user.address }}</td>
+                                        <td>{{ user.created_at }}</td>
+                                        <td>
+
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -61,12 +69,26 @@
 </template>
 
 <script>
-    import addUser from './add_user.vue';
+    import addUser from './addUser.vue';
+    import axios from 'axios';
     export default {
         components: {
             addUser,
         },
+        data: function () {
+            return {
+                users: {},
+            };
+        },
+        beforeMount() {
+            this.getUsers();
+        },
         methods: {
+            getUsers: function() {
+                axios.get('/user/list').then((response) => {
+                    this.users = response.data.data;
+                });
+            },
             addUser() {
                 $("#addUser").modal('show');
             },
