@@ -31,6 +31,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         try {
+            dd($request->all());
             DB::beginTransaction();
             $users = new User();
             $users->name = $request->name;
