@@ -53,7 +53,22 @@
                                         <td>{{ user.address }}</td>
                                         <td>{{ user.created_at }}</td>
                                         <td>
-
+                                            <div class="btn-group btn-group-sm">
+                                                <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                                    Action
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <button class="dropdown-item" type="button">
+                                                        Edit
+                                                    </button>
+                                                    <button class="dropdown-item" type="button">
+                                                        View
+                                                    </button>
+                                                    <button class="dropdown-item" type="button" @click="deleteUser(user.id)">
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -91,6 +106,12 @@
             },
             addUser() {
                 $("#addUser").modal('show');
+            },
+            deleteUser(id) {
+                axios.get(`/user/delete/${id}`).then((response) => {
+                    console.log(response);
+                    this.getUsers();
+                });
             },
             
         },

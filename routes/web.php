@@ -21,5 +21,6 @@ Route::get('/', function () {
 
 Route::get('/user/list', [UserController::class, 'index']);
 Route::post('/user/store', [UserController::class, 'store']);
+Route::get('/user/delete/{id}', [UserController::class, 'userDelete']);
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');

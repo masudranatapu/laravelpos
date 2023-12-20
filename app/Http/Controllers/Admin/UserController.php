@@ -54,4 +54,24 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function userDelete($id)
+    {
+        try {
+            DB::beginTransaction();
+            $users = User::findOrFail($id);
+            $users->delete();
+            DB::commit();
+            return response()->json([
+                'type' => 'Success',
+                'massage' => 'User successfully deleted',
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'type' => 'Error',
+                'massage' => $e->getMessage(),
+            ]);
+        }
+    }
 }
