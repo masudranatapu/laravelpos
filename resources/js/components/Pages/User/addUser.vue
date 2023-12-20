@@ -33,7 +33,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" :disabled="isDisable">
+                        <!-- <button type="submit" class="btn btn-primary" :disabled="isDisable"> -->
+                        <button type="submit" class="btn btn-primary" >
                             {{ isDisable ? 'Submit ....' : 'Submit' }}
                         </button>
                     </div>
@@ -57,6 +58,18 @@
                 this.isDisable = true;
                 axios.post('/user/store', this.users).then((response) => {
                     console.log(response);
+                }).catch((error) => {
+                    
+                    console.log(error.response, error.response.data, error.response.data.errors);
+                    
+                    if (error.response && error.response.data && error.response.data.errors) {
+                        const errors = error.response.data.errors;
+                        Object.keys(errors).forEach((key) => {
+                            errors[key].forEach((errorMessage) => {
+                                console.log(`${errorMessage}`);
+                            });
+                        });
+                    }
                 });
             }
         },
