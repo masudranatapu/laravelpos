@@ -81,7 +81,7 @@
     </div>
     <!-- add user  -->
     <addUser @userAdded="getUsers" />
-    <viewUser />
+    <viewUser @userView="viewUser" />
 </template>
 
 <script>
@@ -119,6 +119,12 @@
             viewUser(id) {
                 axios.get(`/user/view/${id}`).then((response) => {
                     console.log(response.data);
+                    if(response.data.type == "Success") {
+                        $("#viewUser").modal('show');
+                        
+                    }else {
+                        console.log(response.data.success);
+                    }
                 });
             },
             
