@@ -28,7 +28,7 @@
                         </div>
                         <div class="from-group">
                             <label for="">Address</label>
-                            <textarea cols="30" rows="3" class="form-control" v-model="users.address"></textarea>
+                            <textarea cols="30" rows="3" class="form-control" v-model="users.address" placeholder="Address"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
