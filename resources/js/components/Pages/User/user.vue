@@ -61,7 +61,7 @@
                                                     <button class="dropdown-item" type="button">
                                                         Edit
                                                     </button>
-                                                    <button class="dropdown-item" type="button">
+                                                    <button class="dropdown-item" type="button" @click="viewUser(user.id)">
                                                         View
                                                     </button>
                                                     <button class="dropdown-item" type="button" @click="deleteUser(user.id)">
@@ -80,15 +80,18 @@
         </div>
     </div>
     <!-- add user  -->
-    <addUser />
+    <addUser @userAdded="getUsers" />
+    <viewUser />
 </template>
 
 <script>
     import addUser from './addUser.vue';
+    import viewUser from './viewUser.vue';
     import axios from 'axios';
     export default {
         components: {
             addUser,
+            viewUser,
         },
         data: function () {
             return {
@@ -113,11 +116,12 @@
                     this.getUsers();
                 });
             },
+            viewUser(id) {
+                axios.get(`/user/view/${id}`).then((response) => {
+                    console.log(response.data);
+                });
+            },
             
         },
     }
 </script>
-
-<style lang="">
-    
-</style>

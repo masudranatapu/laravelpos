@@ -55,6 +55,24 @@ class UserController extends Controller
         }
     }
 
+
+    public function viewUser($id)
+    {
+        try {
+            $users = User::findOrFail($id);
+            return response()->json([
+                'type' => 'Success',
+                'massage' => 'User successfully deleted',
+                'data' => $users,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'type' => 'Error',
+                'massage' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function userDelete($id)
     {
         try {
