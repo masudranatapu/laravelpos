@@ -81,21 +81,25 @@
     </div>
     <!-- add user  -->
     <addUser @userAdded="getUsers" />
-    <viewUser @userView="viewUser" />
+    <viewUser :userData="selectedUserData" />
+    <updateUser :userData="selectedUserData" />
 </template>
 
 <script>
     import addUser from './addUser.vue';
     import viewUser from './viewUser.vue';
+    import updateUser from './updateUser.vue';
     import axios from 'axios';
     export default {
         components: {
             addUser,
             viewUser,
+            updateUser,
         },
         data: function () {
             return {
                 users: {},
+                selectedUserData: null,
             };
         },
         beforeMount() {
@@ -118,16 +122,16 @@
             },
             viewUser(id) {
                 axios.get(`/user/view/${id}`).then((response) => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     if(response.data.type == "Success") {
+                        this.selectedUserData = response.data.data;
                         $("#viewUser").modal('show');
-                        
+                        console.log(this.selectedUserData);
                     }else {
-                        console.log(response.data.success);
+                        // console.log(response.data.success);
                     }
                 });
             },
-            
         },
     }
 </script>

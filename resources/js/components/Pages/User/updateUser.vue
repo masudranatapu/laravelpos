@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -8,7 +8,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form @submit.prevent="storeUser">
+                <form @submit.prevent="updateUser">
                     <div class="modal-body">
                         <div class="from-group">
                             <label for="">User Name</label>
@@ -34,7 +34,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" :disabled="isDisable">
-                            {{ isDisable ? 'Submit ....' : 'Submit' }}
+                            {{ isDisable ? 'Update ....' : 'Update' }}
                         </button>
                     </div>
                 </form>
@@ -46,6 +46,9 @@
 <script>
     import axios from 'axios';
     export default {
+        props : {
+
+        },
         data: function () {
             return {
                 isDisable: false,
@@ -53,16 +56,16 @@
             };
         },
         methods: {
-            storeUser() {
+            updateUser() {
                 this.isDisable = true;
-                axios.post('/user/store', this.users).then((response) => {
+                axios.post('/user/dd', this.users).then((response) => {
                     // console.log(response.data);
                     if(response.data.type == 'Success') {
                         this.isDisable = false;
                         // console.log(response.data.massage);
                         this.$emit('userAdded');
                         this.users = {};
-                        $("#addUser").modal('hide');
+                        $("#updateUser").modal('hide');
                         
                     }else {
                         // console.log(response.data.massage);
