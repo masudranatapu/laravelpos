@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -66,6 +67,51 @@ class UserController extends Controller
                 'data' => $users,
             ]);
         } catch (Exception $e) {
+            return response()->json([
+                'type' => 'Error',
+                'massage' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function editUser($id)
+    {
+        try {
+            $users = User::findOrFail($id);
+            return response()->json([
+                'type' => 'Success',
+                'massage' => 'User successfully deleted',
+                'data' => $users,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'type' => 'Error',
+                'massage' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function updateUser(UserUpdateRequest $request, $id)
+    {
+        // dd($request->all(), $id);
+        try {
+            DB::beginTransaction();
+            $users =  User::findOrFail($id);
+            $users->name = $request->name;
+            $users->email = $request->email;
+            $users->password = $request->phone ? Hash::make($request->password) : $users->phone;
+            $users->phone = $request->phone;
+            $users->address = $request->address;
+            $users->save();
+            DB::commit();
+
+            return response()->json([
+                'type' => 'Success',
+                'massage' => 'User successfully updated',
+                'data' => $users,
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
             return response()->json([
                 'type' => 'Error',
                 'massage' => $e->getMessage(),

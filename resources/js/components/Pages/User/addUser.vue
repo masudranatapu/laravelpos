@@ -59,7 +59,6 @@
                     // console.log(response.data);
                     if(response.data.type == 'Success') {
                         this.isDisable = false;
-                        // console.log(response.data.massage);
                         this.$emit('userAdded');
                         this.users = {};
                         $("#addUser").modal('hide');
@@ -68,8 +67,6 @@
                         // console.log(response.data.massage);
                     }
                 }).catch((error) => {
-                    
-                    // console.log(error.response, error.response.data, error.response.data.errors);
                     
                     this.isDisable = false;
                     

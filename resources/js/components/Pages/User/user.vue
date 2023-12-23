@@ -58,7 +58,7 @@
                                                     Action
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <button class="dropdown-item" type="button">
+                                                    <button class="dropdown-item" type="button" @click="editUser(user.id)">
                                                         Edit
                                                     </button>
                                                     <button class="dropdown-item" type="button" @click="viewUser(user.id)">
@@ -81,8 +81,10 @@
     </div>
     <!-- add user  -->
     <addUser @userAdded="getUsers" />
+    <!-- view user -->
     <viewUser :userData="selectedUserData" />
-    <updateUser :userData="selectedUserData" />
+    <!-- edit user -->
+    <updateUser :users="editSelectedUser" @userUpdated="getUsers"/>
 </template>
 
 <script>
@@ -100,6 +102,7 @@
             return {
                 users: {},
                 selectedUserData: null,
+                editSelectedUser: null,
             };
         },
         beforeMount() {
@@ -127,6 +130,18 @@
                         this.selectedUserData = response.data.data;
                         $("#viewUser").modal('show');
                         console.log(this.selectedUserData);
+                    }else {
+                        // console.log(response.data.success);
+                    }
+                });
+            },
+            editUser(id) {
+                axios.get(`/user/edit/${id}`).then((response) => {
+                    // console.log(response.data);
+                    if(response.data.type == "Success") {
+                        this.editSelectedUser = response.data.data;
+                        $("#updateUser").modal('show');
+                        console.log(this.editSelectedUser);
                     }else {
                         // console.log(response.data.success);
                     }
