@@ -47,6 +47,8 @@
 
 <script>
     import axios from 'axios';
+    import { toast } from 'vue3-toastify';
+    import 'vue3-toastify/dist/index.css';
     export default {
         props : {
             users:  {
@@ -68,8 +70,8 @@
                     if(response.data.type == "Success") {
                         this.isDisable = false;
                         this.$emit('userUpdated');
-
                         $("#updateUser").modal('hide');
+                        toast.success('User successfully updated');
                     }else {
                         // console.log(response.data.massage);
                     }
@@ -81,7 +83,8 @@
                         const errors = error.response.data.errors;
                         Object.keys(errors).forEach((key) => {
                             errors[key].forEach((errorMessage) => {
-                                console.log(`${errorMessage}`);
+                                // console.log(`${errorMessage}`);
+                                toast.error(`${errorMessage}`);
                             });
                         });
                     }

@@ -45,7 +45,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(user, index) of users">
+                                    <tr v-for="(user, index) of users.data">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.email }}</td>
@@ -91,6 +91,8 @@
     import addUser from './addUser.vue';
     import viewUser from './viewUser.vue';
     import updateUser from './updateUser.vue';
+    import { toast } from 'vue3-toastify';
+    import 'vue3-toastify/dist/index.css';
     import axios from 'axios';
     export default {
         components: {
@@ -109,9 +111,9 @@
             this.getUsers();
         },
         methods: {
-            getUsers: function() {
-                axios.get('/user/list').then((response) => {
-                    this.users = response.data.data;
+            getUsers: function(page = 1) {
+                axios.get(`/user/list?${page}`).then((response) => {
+                    this.users = response.data;
                 });
             },
             addUser() {
@@ -119,8 +121,12 @@
             },
             deleteUser(id) {
                 axios.get(`/user/delete/${id}`).then((response) => {
-                    console.log(response);
-                    this.getUsers();
+                    if(response.data.type == "Success") {
+                        toast.warning(response.data.massage);
+                        this.getUsers();
+                    }else {
+                        toast.info('Somethig went worng. Please try again');
+                    }
                 });
             },
             viewUser(id) {
@@ -129,9 +135,10 @@
                     if(response.data.type == "Success") {
                         this.selectedUserData = response.data.data;
                         $("#viewUser").modal('show');
-                        console.log(this.selectedUserData);
+                        
                     }else {
                         // console.log(response.data.success);
+                        toast.info(response.data.massage);
                     }
                 });
             },
@@ -141,9 +148,9 @@
                     if(response.data.type == "Success") {
                         this.editSelectedUser = response.data.data;
                         $("#updateUser").modal('show');
-                        console.log(this.editSelectedUser);
                     }else {
                         // console.log(response.data.success);
+                        toast.info('Somethig went worng. Please try again');
                     }
                 });
             },

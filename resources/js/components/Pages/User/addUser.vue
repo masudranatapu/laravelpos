@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" @click="dismissModel" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" @click="dismissModel">Close</button>
                         <button type="submit" class="btn btn-primary" :disabled="isDisable">
                             {{ isDisable ? 'Submit ....' : 'Submit' }}
                         </button>
@@ -45,6 +45,8 @@
 
 <script>
     import axios from 'axios';
+    import { toast } from 'vue3-toastify';
+    import 'vue3-toastify/dist/index.css';
     export default {
         data: function () {
             return {
@@ -62,7 +64,7 @@
                         this.$emit('userAdded');
                         this.users = {};
                         $("#addUser").modal('hide');
-                        
+                        toast.success('User successfully added');
                     }else {
                         // console.log(response.data.massage);
                     }
@@ -74,11 +76,15 @@
                         const errors = error.response.data.errors;
                         Object.keys(errors).forEach((key) => {
                             errors[key].forEach((errorMessage) => {
-                                console.log(`${errorMessage}`);
+                                toast.error(`${errorMessage}`);
                             });
                         });
                     }
                 });
+            },
+            dismissModel() {
+                this.users = {};
+                $("#addUser").modal('hide');
             }
         },
     }
