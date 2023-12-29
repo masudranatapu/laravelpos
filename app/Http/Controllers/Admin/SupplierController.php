@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
 use App\Http\Resources\SuppliersResource;
+use App\Http\Requests\SupplierRequest;
 
 class SupplierController extends Controller
 {
@@ -42,7 +43,7 @@ class SupplierController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
         //
         dd($request->all());

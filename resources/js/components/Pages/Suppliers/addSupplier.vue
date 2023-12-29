@@ -13,7 +13,7 @@
                         <div class="from-group">
                             <label for="">User</label>
                             <select class="form-control" v-model="suppliers.user_id" >
-                                <option v-for="(user, index) of users" value="">{{ user.name }}</option>
+                                <option></option>
                             </select>
                         </div>
                         <div class="from-group">
@@ -58,7 +58,6 @@
             return {
                 isDisable: false,
                 suppliers: {},
-                users: {},
             };
         },
         methods: {

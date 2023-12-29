@@ -81,7 +81,7 @@
         </div>
     </div>
     <!-- add user  -->
-    <addSupplier @supplierAdded="getSuppliers" />
+    <addSupplier  @supplierAdded="getSuppliers" />
     <!-- view user -->
     <!-- <viewUser :userData="selectedUserData" /> -->
     <!-- edit user -->
